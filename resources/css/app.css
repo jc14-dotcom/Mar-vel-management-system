@@ -1,9 +1,60 @@
 @import 'tailwindcss';
 
-@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
-@source '../../storage/framework/views/*.php';
-
 @theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-sans: 'Figtree', ui-sans-serif, system-ui, sans-serif;
+    --color-ink: #16201d;
+    --color-muted: #63716c;
+    --color-paper: #f5f7f3;
+    --color-panel: #ffffff;
+    --color-forest: #16483d;
+    --color-moss: #dce9df;
+    --color-sun: #e8b44e;
+}
+
+:root {
+    color: #16201d;
+    background: #f5f7f3;
+    font-family: 'Figtree', ui-sans-serif, system-ui, sans-serif;
+    font-synthesis: none;
+}
+
+body {
+    margin: 0;
+    min-width: 320px;
+}
+
+button, a, input, select {
+    transition: color 160ms ease, background-color 160ms ease, border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+}
+
+*:focus-visible {
+    outline: 3px solid rgba(232, 180, 78, 0.75);
+    outline-offset: 3px;
+}
+
+.app-shell {
+    min-height: 100vh;
+    background: #f5f7f3;
+}
+
+.side-rail {
+    background: #16483d;
+    color: #eaf3eb;
+}
+
+.side-rail a:hover,
+.side-rail a[aria-current='page'] {
+    background: rgba(255,255,255,.12);
+    color: #fff;
+}
+
+.soft-grid {
+    background: #f5f7f3;
+}
+
+.panel {
+    border: 1px solid #e1e9e3;
+    border-radius: 16px;
+    background: #fff;
+    box-shadow: 0 12px 32px rgba(27, 53, 45, .06);
 }

@@ -2,7 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
+use App\Models\Permission;
+use App\Models\Role;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -15,11 +16,30 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        $permissions = [
+            'accounts.manage' => 'Manage accounts',
+            'permissions.manage' => 'Manage permissions',
+            'vouchers.view' => 'View vouchers',
+            'vouchers.create' => 'Create vouchers',
+            'vouchers.edit' => 'Edit vouchers',
+            'vouchers.print' => 'Print vouchers',
+            'vouchers.export' => 'Export vouchers',
+            'vouchers.cancel' => 'Cancel vouchers',
+            'projects.manage' => 'Manage projects',
+            'settings.manage' => 'Manage settings',
+        ];
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+        foreach ($permissions as $name => $label) {
+            Permission::firstOrCreate(['name' => $name], ['label' => $label]);
+        }
+
+        $superAdmin = Role::firstOrCreate(['name' => 'super_admin'], ['label' => 'Super Admin']);
+        $employee = Role::firstOrCreate(['name' => 'employee'], ['label' => 'Employee']);
+        $superAdmin->permissions()->sync(Permission::all());
+        $employee->permissions()->sync(Permission::whereIn('name', [
+            'vouchers.view',
+            'vouchers.create',
+            'vouchers.edit',
+        ])->get());
     }
 }

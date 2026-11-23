@@ -1,0 +1,103 @@
+<script setup lang="ts">
+import Checkbox from '@/Components/Checkbox.vue';
+import GuestLayout from '@/Layouts/GuestLayout.vue';
+import InputError from '@/Components/InputError.vue';
+import InputLabel from '@/Components/InputLabel.vue';
+import PrimaryButton from '@/Components/PrimaryButton.vue';
+import TextInput from '@/Components/TextInput.vue';
+import { Head, Link, useForm } from '@inertiajs/vue3';
+
+defineProps<{
+    canResetPassword?: boolean;
+    status?: string;
+}>();
+
+const form = useForm({
+    email: '',
+    password: '',
+    remember: false,
+});
+
+const submit = () => {
+    form.post(route('login'), {
+        onFinish: () => {
+            form.reset('password');
+        },
+    });
+};
+</script>
+
+<template>
+    <GuestLayout>
+        <Head title="Sign in" />
+
+        <div class="mb-8">
+            <p class="text-sm font-medium uppercase tracking-[.16em] text-[#63716c]">Welcome back</p>
+            <h2 class="mt-2 text-3xl font-semibold tracking-[-.03em] text-[#16201d]">Sign in to your workspace</h2>
+            <p class="mt-3 text-sm leading-6 text-[#63716c]">Use your individual Mar-vel OMS account to continue.</p>
+        </div>
+        <div v-if="status" class="mb-4 text-sm font-medium text-green-700">
+            {{ status }}
+        </div>
+
+        <form @submit.prevent="submit">
+            <div>
+                <InputLabel for="email" value="Email" />
+
+                <TextInput
+                    id="email"
+                    type="email"
+                    class="mt-2 block w-full rounded-xl border-[#d7e2da] bg-[#f8faf8] px-4 py-3 shadow-none focus:border-[#16483d] focus:ring-[#16483d]"
+                    v-model="form.email"
+                    required
+                    autofocus
+                    autocomplete="username"
+                />
+
+                <InputError class="mt-2" :message="form.errors.email" />
+            </div>
+
+            <div class="mt-4">
+                <InputLabel for="password" value="Password" />
+
+                <TextInput
+                    id="password"
+                    type="password"
+                    class="mt-2 block w-full rounded-xl border-[#d7e2da] bg-[#f8faf8] px-4 py-3 shadow-none focus:border-[#16483d] focus:ring-[#16483d]"
+                    v-model="form.password"
+                    required
+                    autocomplete="current-password"
+                />
+
+                <InputError class="mt-2" :message="form.errors.password" />
+            </div>
+
+            <div class="mt-4 block">
+                <label class="flex items-center">
+                    <Checkbox name="remember" v-model:checked="form.remember" />
+                    <span class="ms-2 text-sm text-gray-600"
+                        >Remember me</span
+                    >
+                </label>
+            </div>
+
+            <div class="mt-4 flex items-center justify-end">
+                <Link
+                    v-if="canResetPassword"
+                    :href="route('password.request')"
+                    class="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                >
+                    Forgot your password?
+                </Link>
+
+                <PrimaryButton
+                    class="ms-4 rounded-xl bg-[#16483d] px-5 py-3 text-sm font-semibold shadow-lg shadow-[#16483d]/15 hover:bg-[#0f382f]"
+                    :class="{ 'opacity-25': form.processing }"
+                    :disabled="form.processing"
+                >
+                    Log in
+                </PrimaryButton>
+            </div>
+        </form>
+    </GuestLayout>
+</template>
