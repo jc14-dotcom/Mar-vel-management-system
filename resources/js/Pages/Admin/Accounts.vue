@@ -75,7 +75,7 @@ const toggle = (account: Account) => {
 
                 <form class="panel p-6" @submit.prevent="submit">
                     <h2 class="font-semibold text-[#16201d]">Add an account</h2>
-                    <p class="mt-1 text-sm leading-5 text-[#63716c]">Use a unique password of at least 12 characters. Share it through a private channel.</p>
+                    <p class="mt-1 text-sm leading-5 text-[#63716c]">Set a temporary password of at least 12 characters. The new user must replace it before continuing.</p>
                     <div class="mt-6 space-y-4">
                         <div><label for="name" class="text-sm font-medium text-[#16201d]">Full name</label><input id="name" v-model="form.name" class="mt-2 w-full rounded-xl border-[#d7e2da] bg-[#f8faf8] px-4 py-3 text-sm focus:border-[#16483d] focus:ring-[#16483d]" required><InputError class="mt-1" :message="form.errors.name" /></div>
                         <div><label for="email" class="text-sm font-medium text-[#16201d]">Work email</label><input id="email" v-model="form.email" type="email" class="mt-2 w-full rounded-xl border-[#d7e2da] bg-[#f8faf8] px-4 py-3 text-sm focus:border-[#16483d] focus:ring-[#16483d]" required><InputError class="mt-1" :message="form.errors.email" /></div>

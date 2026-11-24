@@ -31,6 +31,7 @@ class BootstrapAdmin extends Command
                 'name' => $this->argument('name'),
                 'password' => Hash::make($password),
                 'is_active' => true,
+                'must_change_password' => false,
                 'email_verified_at' => now(),
             ],
         );

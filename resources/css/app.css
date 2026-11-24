@@ -58,3 +58,12 @@ button, a, input, select {
     background: #fff;
     box-shadow: 0 12px 32px rgba(27, 53, 45, .06);
 }
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+    }
+}

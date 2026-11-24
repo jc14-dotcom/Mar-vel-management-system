@@ -26,6 +26,13 @@ defineProps<{
         <div class="py-12">
             <div class="mx-auto max-w-7xl space-y-6 sm:px-6 lg:px-8">
                 <div
+                    v-if="$page.props.flash.warning"
+                    class="border border-[#e8c978] bg-[#fff8e8] p-4 text-sm font-medium text-[#785617] shadow sm:rounded-lg sm:p-6"
+                    aria-live="polite"
+                >
+                    {{ $page.props.flash.warning }}
+                </div>
+                <div
                     class="bg-white p-4 shadow sm:rounded-lg sm:p-8"
                 >
                     <UpdateProfileInformationForm

@@ -32,8 +32,8 @@ const submit = () => {
         <Head title="Sign in" />
 
         <div class="mb-8">
-            <p class="text-sm font-medium uppercase tracking-[.16em] text-[#63716c]">Welcome back</p>
-            <h2 class="mt-2 text-3xl font-semibold tracking-[-.03em] text-[#16201d]">Sign in to your workspace</h2>
+            <p class="text-sm font-medium text-[#63716c]">Secure entry</p>
+            <h2 class="mt-2 text-3xl font-semibold tracking-[-.03em] text-[#16201d] sm:text-4xl">Sign in to your workspace</h2>
             <p class="mt-3 text-sm leading-6 text-[#63716c]">Use your individual Mar-vel OMS account to continue.</p>
         </div>
         <div v-if="status" class="mb-4 text-sm font-medium text-green-700">

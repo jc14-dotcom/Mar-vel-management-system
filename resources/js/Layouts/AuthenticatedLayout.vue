@@ -22,6 +22,7 @@ const showingNavigationDropdown = ref(false);
                 <nav class="mt-10 space-y-1">
                     <NavLink :href="route('dashboard')" :active="route().current('dashboard')" class="block rounded-xl px-3 py-3 text-sm font-medium text-[#d5e6d8]">Overview</NavLink>
                     <NavLink v-if="$page.props.auth.can.manageAccounts" :href="route('admin.accounts.index')" :active="route().current('admin.accounts.*')" class="block rounded-xl px-3 py-3 text-sm font-medium text-[#d5e6d8]">Accounts & access</NavLink>
+                    <NavLink v-if="$page.props.auth.can.managePermissions" :href="route('admin.permissions.index')" :active="route().current('admin.permissions.*')" class="block rounded-xl px-3 py-3 text-sm font-medium text-[#d5e6d8]">Permission sets</NavLink>
                 </nav>
                 <div class="mt-auto rounded-2xl bg-white/10 p-4 text-sm text-[#d5e6d8]">
                     <p class="font-medium text-white">Phase 1 foundation</p>
@@ -67,7 +68,7 @@ const showingNavigationDropdown = ref(false);
                                                 type="button"
                                                 class="inline-flex items-center rounded-md border border-transparent bg-white px-3 py-2 text-sm font-medium leading-4 text-gray-500 transition duration-150 ease-in-out hover:text-gray-700 focus:outline-none"
                                             >
-                                                {{ $page.props.auth.user.name }}
+                                                {{ $page.props.auth.user?.name ?? 'Account' }}
 
                                                 <svg
                                                     class="-me-0.5 ms-2 h-4 w-4"
@@ -161,6 +162,9 @@ const showingNavigationDropdown = ref(false);
                         >
                             Dashboard
                         </ResponsiveNavLink>
+                        <ResponsiveNavLink v-if="$page.props.auth.can.managePermissions" :href="route('admin.permissions.index')" :active="route().current('admin.permissions.*')">
+                            Permission sets
+                        </ResponsiveNavLink>
                     </div>
 
                     <!-- Responsive Settings Options -->
@@ -171,10 +175,10 @@ const showingNavigationDropdown = ref(false);
                             <div
                                 class="text-base font-medium text-gray-800"
                             >
-                                {{ $page.props.auth.user.name }}
+                                {{ $page.props.auth.user?.name ?? 'Account' }}
                             </div>
                             <div class="text-sm font-medium text-gray-500">
-                                {{ $page.props.auth.user.email }}
+                                {{ $page.props.auth.user?.email ?? '' }}
                             </div>
                         </div>
 

@@ -11,14 +11,14 @@ import { Head } from '@inertiajs/vue3';
             <div class="flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
                 <div>
                     <p class="text-sm font-medium text-[#63716c]">Tuesday, November 24, 2026</p>
-                    <h1 class="mt-2 text-3xl font-semibold tracking-[-.03em] text-[#16201d]">Good morning, {{ $page.props.auth.user.name.split(' ')[0] }}.</h1>
+                    <h1 class="mt-2 text-3xl font-semibold tracking-[-.03em] text-[#16201d]">Good morning, {{ $page.props.auth.user?.name.split(' ')[0] ?? 'there' }}.</h1>
                     <p class="mt-2 text-sm text-[#63716c]">Your operations workspace is ready.</p>
                 </div>
                 <div class="rounded-full bg-[#dce9df] px-4 py-2 text-sm font-semibold text-[#16483d]">Access active</div>
             </div>
             <div class="mt-8 grid gap-4 md:grid-cols-3">
                 <div class="panel p-5"><p class="text-sm text-[#63716c]">Voucher workspace</p><p class="mt-3 text-2xl font-semibold text-[#16201d]">Coming next</p><p class="mt-2 text-sm leading-5 text-[#63716c]">The foundation is in place for accountable voucher entry.</p></div>
-                <div class="panel p-5"><p class="text-sm text-[#63716c]">Your role</p><p class="mt-3 text-2xl font-semibold text-[#16201d]">{{ $page.props.auth.user.roles?.[0]?.label ?? 'Employee' }}</p><p class="mt-2 text-sm leading-5 text-[#63716c]">Permissions are checked on the server.</p></div>
+                <div class="panel p-5"><p class="text-sm text-[#63716c]">Your role</p><p class="mt-3 text-2xl font-semibold text-[#16201d]">{{ $page.props.auth.user?.roles?.[0]?.label ?? 'Employee' }}</p><p class="mt-2 text-sm leading-5 text-[#63716c]">Permissions are checked on the server.</p></div>
                 <div class="panel p-5"><p class="text-sm text-[#63716c]">Workspace status</p><p class="mt-3 text-2xl font-semibold text-[#16483d]">Ready</p><p class="mt-2 text-sm leading-5 text-[#63716c]">Individual access is enabled for this account.</p></div>
             </div>
             <div class="panel mt-6 p-6 sm:p-8">

@@ -38,10 +38,12 @@ class HandleInertiaRequests extends Middleware
                 'user' => $user,
                 'can' => $user ? [
                     'manageAccounts' => $user->hasPermission('accounts.manage'),
+                    'managePermissions' => $user->hasPermission('permissions.manage'),
                 ] : [],
             ],
             'flash' => [
                 'success' => fn (): ?string => $request->session()->get('success'),
+                'warning' => fn (): ?string => $request->session()->get('warning'),
             ],
         ];
     }

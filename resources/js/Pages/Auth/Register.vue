@@ -26,6 +26,11 @@ const submit = () => {
     <GuestLayout>
         <Head title="Register" />
 
+        <div class="mb-8">
+            <p class="text-sm font-medium text-[#63716c]">Account setup</p>
+            <h2 class="mt-2 text-3xl font-semibold tracking-[-.03em] text-[#16201d] sm:text-4xl">Create an account</h2>
+        </div>
+
         <form @submit.prevent="submit">
             <div>
                 <InputLabel for="name" value="Name" />
@@ -33,7 +38,7 @@ const submit = () => {
                 <TextInput
                     id="name"
                     type="text"
-                    class="mt-1 block w-full"
+                    class="mt-2 block w-full rounded-xl border-[#d7e2da] bg-[#f8faf8] px-4 py-3 shadow-none focus:border-[#16483d] focus:ring-[#16483d]"
                     v-model="form.name"
                     required
                     autofocus
@@ -49,7 +54,7 @@ const submit = () => {
                 <TextInput
                     id="email"
                     type="email"
-                    class="mt-1 block w-full"
+                    class="mt-2 block w-full rounded-xl border-[#d7e2da] bg-[#f8faf8] px-4 py-3 shadow-none focus:border-[#16483d] focus:ring-[#16483d]"
                     v-model="form.email"
                     required
                     autocomplete="username"
@@ -64,7 +69,7 @@ const submit = () => {
                 <TextInput
                     id="password"
                     type="password"
-                    class="mt-1 block w-full"
+                    class="mt-2 block w-full rounded-xl border-[#d7e2da] bg-[#f8faf8] px-4 py-3 shadow-none focus:border-[#16483d] focus:ring-[#16483d]"
                     v-model="form.password"
                     required
                     autocomplete="new-password"
@@ -82,7 +87,7 @@ const submit = () => {
                 <TextInput
                     id="password_confirmation"
                     type="password"
-                    class="mt-1 block w-full"
+                    class="mt-2 block w-full rounded-xl border-[#d7e2da] bg-[#f8faf8] px-4 py-3 shadow-none focus:border-[#16483d] focus:ring-[#16483d]"
                     v-model="form.password_confirmation"
                     required
                     autocomplete="new-password"
