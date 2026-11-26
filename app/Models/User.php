@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -35,6 +36,11 @@ class User extends Authenticatable
         return $this->is_active && $this->roles()
             ->whereHas('permissions', fn ($query) => $query->where('name', $permission))
             ->exists();
+    }
+
+    public function createdVouchers(): HasMany
+    {
+        return $this->hasMany(Voucher::class, 'created_by');
     }
 
     public function hasRole(string $role): bool

@@ -1,6 +1,6 @@
 # Mar-vel OMS Phase 1 Implementation Plan
 
-**Status:** Approved architecture; application implementation has not started.
+**Status:** Approved architecture; application implementation is in progress.
 **Audience:** Agentic coding agents implementing Phase 1.
 **Source of truth:** [Mar-vel OMS Ph1 Architecture.md](Mar-vel%20OMS%20Ph1%20Architecture.md), this plan, and the voucher sample `voucher.jpg`.
 

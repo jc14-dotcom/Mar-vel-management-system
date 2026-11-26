@@ -15,10 +15,17 @@ export type PageProps<
         can: {
             manageAccounts: boolean;
             managePermissions: boolean;
+            manageProjects: boolean;
+            manageSettings: boolean;
+            viewVouchers: boolean;
+            createVouchers: boolean;
+            editVouchers: boolean;
+            cancelVouchers: boolean;
         };
     };
     flash: {
         success?: string;
         warning?: string;
+        createdProject?: { id: number; name: string } | null;
     };
 };

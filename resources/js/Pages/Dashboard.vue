@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head } from '@inertiajs/vue3';
+import { Head, Link, usePage } from '@inertiajs/vue3';
+import type { PageProps } from '@/types';
+
+const page = usePage<PageProps>();
 </script>
 
 <template>
@@ -17,7 +20,13 @@ import { Head } from '@inertiajs/vue3';
                 <div class="rounded-full bg-[#dce9df] px-4 py-2 text-sm font-semibold text-[#16483d]">Access active</div>
             </div>
             <div class="mt-8 grid gap-4 md:grid-cols-3">
-                <div class="panel p-5"><p class="text-sm text-[#63716c]">Voucher workspace</p><p class="mt-3 text-2xl font-semibold text-[#16201d]">Coming next</p><p class="mt-2 text-sm leading-5 text-[#63716c]">The foundation is in place for accountable voucher entry.</p></div>
+                <div class="panel p-5">
+                    <p class="text-sm text-[#63716c]">Voucher workspace</p>
+                    <p class="mt-3 text-2xl font-semibold text-[#16201d]">Shared records</p>
+                    <p class="mt-2 text-sm leading-5 text-[#63716c]">Create vouchers and review saved activity.</p>
+                    <Link v-if="page.props.auth.can.viewVouchers" :href="route('vouchers.index')" class="mt-4 inline-flex min-h-10 items-center text-sm font-semibold text-[#16483d] hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#e8b44e]">Open vouchers</Link>
+                    <Link v-else-if="page.props.auth.can.createVouchers" :href="route('vouchers.create')" class="mt-4 inline-flex min-h-10 items-center text-sm font-semibold text-[#16483d] hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#e8b44e]">Create a voucher</Link>
+                </div>
                 <div class="panel p-5"><p class="text-sm text-[#63716c]">Your role</p><p class="mt-3 text-2xl font-semibold text-[#16201d]">{{ $page.props.auth.user?.roles?.[0]?.label ?? 'Employee' }}</p><p class="mt-2 text-sm leading-5 text-[#63716c]">Permissions are checked on the server.</p></div>
                 <div class="panel p-5"><p class="text-sm text-[#63716c]">Workspace status</p><p class="mt-3 text-2xl font-semibold text-[#16483d]">Ready</p><p class="mt-2 text-sm leading-5 text-[#63716c]">Individual access is enabled for this account.</p></div>
             </div>

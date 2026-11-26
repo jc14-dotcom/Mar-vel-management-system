@@ -21,11 +21,12 @@ const form = useForm({
 <template>
     <section>
         <header>
-            <h2 class="text-lg font-medium text-gray-900">
+            <p class="eyebrow">Identity</p>
+            <h2 class="mt-2 text-xl font-semibold tracking-[-.02em] text-[#16201d]">
                 Profile Information
             </h2>
 
-            <p class="mt-1 text-sm text-gray-600">
+            <p class="mt-2 text-sm leading-6 text-[#63716c]">
                 Update your account's profile information and email address.
             </p>
         </header>
@@ -80,7 +81,7 @@ const form = useForm({
 
                 <div
                     v-show="status === 'verification-link-sent'"
-                    class="mt-2 text-sm font-medium text-green-600"
+                        class="mt-2 text-sm font-medium text-[#2e8a5c]"
                 >
                     A new verification link has been sent to your email address.
                 </div>
@@ -97,7 +98,7 @@ const form = useForm({
                 >
                     <p
                         v-if="form.recentlySuccessful"
-                        class="text-sm text-gray-600"
+                        class="text-sm text-[#2e8a5c]"
                     >
                         Saved.
                     </p>
