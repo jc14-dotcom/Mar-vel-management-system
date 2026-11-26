@@ -219,6 +219,8 @@ onReconnect(refreshProjects);
                                 :href="link.url ?? '#'"
                                 :aria-current="link.active ? 'page' : undefined"
                                 :aria-label="paginationLabel(link.label)"
+                                :prefetch="link.url ? ['hover', 'click'] : false"
+                                :cache-for="link.url ? ['10s', '30s'] : undefined"
                                 class="inline-flex min-h-9 min-w-9 items-center justify-center rounded-lg px-2 text-xs font-semibold transition-colors"
                                 :class="[
                                     link.active ? 'bg-[#16483d] text-white' : link.url ? 'text-[#63716c] hover:bg-[#edf4ee] hover:text-[#16483d]' : 'cursor-not-allowed text-[#c1cec5]',

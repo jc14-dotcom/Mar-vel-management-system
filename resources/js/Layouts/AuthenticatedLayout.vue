@@ -8,7 +8,7 @@ import RealtimeStatus from '@/Components/RealtimeStatus.vue';
 import type { PageProps } from '@/types';
 import { useRealtimeUpdates } from '@/useRealtimeUpdates';
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue';
-import { Link, usePage } from '@inertiajs/vue3';
+import { Link, router, usePage } from '@inertiajs/vue3';
 
 type NavigationLink = {
     label: string;
@@ -27,6 +27,7 @@ const previousBodyPosition = ref('');
 const previousBodyTop = ref('');
 const previousBodyWidth = ref('');
 const previousScrollY = ref(0);
+const isNavigating = ref(false);
 const { status: realtimeStatus } = useRealtimeUpdates();
 
 const navigationSections = computed<{ label: string; links: NavigationLink[] }[]>(() => {
@@ -186,6 +187,17 @@ watch(showingNavigationDropdown, (isOpen) => {
     }
 });
 
+const removeNavigationStartListener = router.on('start', () => {
+    isNavigating.value = true;
+});
+const removeNavigationFinishListener = router.on('finish', (event) => {
+    isNavigating.value = false;
+
+    if (event.detail.visit.method !== 'get') {
+        router.flushAll();
+    }
+});
+
 onMounted(() => {
     window.addEventListener('keydown', handleKeydown);
     window.addEventListener('resize', closeNavigationOnDesktop);
@@ -196,6 +208,8 @@ onBeforeUnmount(() => {
 
     window.removeEventListener('keydown', handleKeydown);
     window.removeEventListener('resize', closeNavigationOnDesktop);
+    removeNavigationStartListener();
+    removeNavigationFinishListener();
 
     if (wasNavigationOpen) {
         restorePageScroll(false);
@@ -231,6 +245,8 @@ onBeforeUnmount(() => {
                                 :href="link.href"
                                 :active="link.active"
                                 variant="sidebar"
+                                :prefetch="['hover', 'click']"
+                                :cache-for="['10s', '30s']"
                             >
                                 <Icon :name="link.icon" :size="19" />
                                 <span>{{ link.label }}</span>
@@ -262,6 +278,7 @@ onBeforeUnmount(() => {
 
             <div class="min-h-screen min-w-0 flex-1">
                 <header class="sticky top-0 z-30 border-b border-[#e1e9e3] bg-white/90 backdrop-blur-xl">
+                    <div v-if="isNavigating" class="navigation-progress" aria-hidden="true" />
                     <div class="flex h-20 items-center justify-between gap-4 px-4 sm:px-6 lg:px-10">
                         <div class="flex min-w-0 items-center gap-3">
                             <button
@@ -371,6 +388,8 @@ onBeforeUnmount(() => {
                                 class="flex min-h-11 items-center gap-3 rounded-xl px-3 py-3 text-sm font-medium active:scale-[.99]"
                                 :class="link.active ? 'bg-white/12 font-semibold text-white' : 'text-[#c4ddd0] hover:bg-white/8 hover:text-white'"
                                 :aria-current="link.active ? 'page' : undefined"
+                                :prefetch="['hover', 'click']"
+                                :cache-for="['10s', '30s']"
                                 @click="closeMobileNavigation"
                             >
                                 <Icon :name="link.icon" :size="19" />

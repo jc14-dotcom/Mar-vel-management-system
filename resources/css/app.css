@@ -37,6 +37,34 @@ button, a, input, select {
     background: #f5f7f3;
 }
 
+.navigation-progress {
+    position: absolute;
+    inset-inline: 0;
+    bottom: -1px;
+    height: 2px;
+    overflow: hidden;
+    background: #dce9df;
+}
+
+.navigation-progress::after {
+    display: block;
+    width: 42%;
+    height: 100%;
+    background: #e8b44e;
+    content: '';
+    animation: navigation-progress 900ms cubic-bezier(.32, .72, 0, 1) infinite;
+}
+
+@keyframes navigation-progress {
+    from {
+        transform: translateX(-120%);
+    }
+
+    to {
+        transform: translateX(260%);
+    }
+}
+
 .mobile-navigation-backdrop-enter-active,
 .mobile-navigation-backdrop-leave-active {
     transition: opacity 180ms ease;

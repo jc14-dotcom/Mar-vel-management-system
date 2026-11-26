@@ -1,4 +1,5 @@
 import type { ConnectionStatus } from 'laravel-echo';
+import { router } from '@inertiajs/vue3';
 import { onBeforeUnmount, readonly, ref } from 'vue';
 import echo from './echo';
 
@@ -51,8 +52,13 @@ export function useRealtimeUpdates() {
         }
 
         const channel = echo.private('vouchers');
-        channel.listen('.voucher.changed', handler);
-        onBeforeUnmount(() => channel.stopListening('.voucher.changed', handler));
+        const listener = (event: VoucherChangedPayload) => {
+            router.flushAll();
+            handler(event);
+        };
+
+        channel.listen('.voucher.changed', listener);
+        onBeforeUnmount(() => channel.stopListening('.voucher.changed', listener));
     };
 
     const onProjectChanged = (handler: (event: ProjectChangedPayload) => void): void => {
@@ -61,13 +67,23 @@ export function useRealtimeUpdates() {
         }
 
         const channel = echo.private('projects');
-        channel.listen('.project.changed', handler);
-        onBeforeUnmount(() => channel.stopListening('.project.changed', handler));
+        const listener = (event: ProjectChangedPayload) => {
+            router.flushAll();
+            handler(event);
+        };
+
+        channel.listen('.project.changed', listener);
+        onBeforeUnmount(() => channel.stopListening('.project.changed', listener));
     };
 
     const onReconnect = (handler: () => void): void => {
-        reconnectHandlers.add(handler);
-        onBeforeUnmount(() => reconnectHandlers.delete(handler));
+        const listener = () => {
+            router.flushAll();
+            handler();
+        };
+
+        reconnectHandlers.add(listener);
+        onBeforeUnmount(() => reconnectHandlers.delete(listener));
     };
 
     return {

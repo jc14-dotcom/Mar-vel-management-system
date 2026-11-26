@@ -99,6 +99,8 @@ onReconnect(refreshVouchers);
                 <Link
                     v-if="page.props.auth.can.createVouchers"
                     :href="route('vouchers.create')"
+                    prefetch
+                    :cache-for="['10s', '30s']"
                     class="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl bg-[#16483d] px-5 py-3 text-sm font-semibold text-white hover:bg-[#0f382f] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#e8b44e]"
                 >
                     <span aria-hidden="true">+</span>
@@ -182,12 +184,16 @@ onReconnect(refreshVouchers);
                                 <Link
                                     v-if="page.props.auth.can.editVouchers"
                                     :href="route('vouchers.edit', voucher.id)"
+                                    prefetch
+                                    :cache-for="['10s', '30s']"
                                     class="inline-flex min-h-10 items-center rounded-lg border border-[#d7e2da] px-3 text-sm font-semibold text-[#16483d] hover:bg-[#edf4ee] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#e8b44e]"
                                 >
                                     Edit
                                 </Link>
                                 <Link
                                     :href="route('vouchers.history', voucher.id)"
+                                    prefetch
+                                    :cache-for="['10s', '30s']"
                                     class="inline-flex min-h-10 items-center rounded-lg px-3 text-sm font-semibold text-[#63716c] hover:bg-[#f3f7f3] hover:text-[#16483d] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#e8b44e]"
                                 >
                                     History
@@ -219,6 +225,8 @@ onReconnect(refreshVouchers);
                             :href="link.url ?? '#'"
                             :aria-current="link.active ? 'page' : undefined"
                             :aria-label="paginationLabel(link.label)"
+                            :prefetch="link.url ? ['hover', 'click'] : false"
+                            :cache-for="link.url ? ['10s', '30s'] : undefined"
                             class="inline-flex min-h-10 min-w-10 items-center justify-center rounded-lg px-2 text-xs font-semibold"
                             :class="link.active ? 'bg-[#16483d] text-white' : link.url ? 'text-[#63716c] hover:bg-[#edf4ee] hover:text-[#16483d]' : 'cursor-not-allowed text-[#c1cec5]'"
                             :preserve-scroll="true"
