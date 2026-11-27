@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import InputError from '@/Components/InputError.vue';
+import PageHeader from '@/Components/PageHeader.vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head, useForm } from '@inertiajs/vue3';
 
@@ -24,11 +25,7 @@ const submit = () => {
 
     <AuthenticatedLayout>
         <div class="mx-auto max-w-4xl">
-            <header>
-                <p class="text-sm font-medium text-[#63716c]">Administration</p>
-                <h1 class="mt-2 text-3xl font-semibold tracking-[-.03em] text-[#16201d]">Print settings</h1>
-                <p class="mt-2 max-w-2xl text-sm leading-6 text-[#63716c]">Manage the shared form details used by future voucher printouts.</p>
-            </header>
+            <PageHeader title="Print settings" description="Manage the shared form details used by future voucher printouts." />
 
             <div v-if="$page.props.flash.success" class="mt-6 rounded-xl border border-[#b8d5bf] bg-[#edf7ef] px-4 py-3 text-sm font-medium text-[#16483d]" role="status">
                 {{ $page.props.flash.success }}

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import Icon from '@/Components/Icon.vue';
+import PageHeader from '@/Components/PageHeader.vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import type { PageProps } from '@/types';
 import { useRealtimeUpdates } from '@/useRealtimeUpdates';
@@ -93,26 +94,29 @@ onReconnect(refreshHistory);
 
     <AuthenticatedLayout>
         <div class="mx-auto max-w-5xl">
-            <header class="flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
-                <div>
+            <PageHeader :title="voucher.voucher_number">
+                <template #before>
                     <Link :href="route('vouchers.index')" prefetch :cache-for="['10s', '30s']" class="inline-flex min-h-10 items-center gap-2 text-sm font-semibold text-[#63716c] hover:text-[#16483d]">
                         <Icon name="arrow-left" :size="17" />
                         Vouchers
                     </Link>
-                    <p class="eyebrow mt-6">Activity record</p>
-                    <h1 class="page-title">{{ voucher.voucher_number }}</h1>
-                    <p class="mt-3 text-sm text-[#63716c]">Current status: <span class="font-semibold text-[#16201d]">{{ statusLabel(voucher.status) }}</span></p>
-                </div>
-                <Link
-                    v-if="page.props.auth.can.editVouchers"
-                    :href="route('vouchers.edit', voucher.id)"
-                    prefetch
-                    :cache-for="['10s', '30s']"
-                    class="inline-flex min-h-11 items-center justify-center rounded-xl border border-[#16483d] px-5 py-3 text-sm font-semibold text-[#16483d] hover:bg-[#edf4ee] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#e8b44e]"
-                >
-                    Open voucher
-                </Link>
-            </header>
+                </template>
+                <template #description>
+                    Current status:
+                    <span class="font-semibold text-[#16201d]">{{ statusLabel(voucher.status) }}</span>
+                </template>
+                <template #actions>
+                    <Link
+                        v-if="page.props.auth.can.editVouchers"
+                        :href="route('vouchers.edit', voucher.id)"
+                        prefetch
+                        :cache-for="['10s', '30s']"
+                        class="inline-flex min-h-11 items-center justify-center rounded-xl border border-[#16483d] px-5 py-3 text-sm font-semibold text-[#16483d] hover:bg-[#edf4ee] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#e8b44e]"
+                    >
+                        Open voucher
+                    </Link>
+                </template>
+            </PageHeader>
 
             <section class="mt-8" aria-labelledby="revision-history-heading">
                 <div class="flex items-end justify-between gap-4">

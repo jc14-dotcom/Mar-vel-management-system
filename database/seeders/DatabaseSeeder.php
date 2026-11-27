@@ -30,13 +30,22 @@ class DatabaseSeeder extends Seeder
         ];
 
         foreach ($permissions as $name => $label) {
-            Permission::firstOrCreate(['name' => $name], ['label' => $label]);
+            Permission::firstOrCreate(
+                ['name' => $name, 'guard_name' => 'web'],
+                ['label' => $label],
+            );
         }
 
-        $superAdmin = Role::firstOrCreate(['name' => 'super_admin'], ['label' => 'Super Admin']);
-        $employee = Role::firstOrCreate(['name' => 'employee'], ['label' => 'Employee']);
-        $superAdmin->permissions()->sync(Permission::all());
-        $employee->permissions()->sync(Permission::whereIn('name', [
+        $superAdmin = Role::firstOrCreate(
+            ['name' => 'super_admin', 'guard_name' => 'web'],
+            ['label' => 'Super Admin'],
+        );
+        $employee = Role::firstOrCreate(
+            ['name' => 'employee', 'guard_name' => 'web'],
+            ['label' => 'Employee'],
+        );
+        $superAdmin->syncPermissions(Permission::all());
+        $employee->syncPermissions(Permission::whereIn('name', [
             'vouchers.view',
             'vouchers.create',
             'vouchers.edit',

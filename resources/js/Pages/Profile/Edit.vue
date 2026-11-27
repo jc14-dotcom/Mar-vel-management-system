@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
+import PageHeader from '@/Components/PageHeader.vue';
 import DeleteUserForm from './Partials/DeleteUserForm.vue';
 import UpdatePasswordForm from './Partials/UpdatePasswordForm.vue';
 import UpdateProfileInformationForm from './Partials/UpdateProfileInformationForm.vue';
@@ -16,17 +17,14 @@ defineProps<{
 
     <AuthenticatedLayout>
         <div class="mx-auto max-w-6xl">
-            <header class="flex flex-col justify-between gap-6 sm:flex-row sm:items-end">
-                <div>
-                    <p class="eyebrow">Account</p>
-                    <h1 class="page-title">Profile settings</h1>
-                    <p class="page-lede">Keep your identity and sign-in details current for the shared office workspace.</p>
-                </div>
-                <div class="hidden items-center gap-2 text-sm font-medium text-[#63716c] sm:flex">
-                    <span class="h-2 w-2 rounded-full bg-[#2e8a5c]" />
-                    Account secured
-                </div>
-            </header>
+            <PageHeader title="Profile settings" description="Keep your identity and sign-in details current for the shared office workspace.">
+                <template #actions>
+                    <div class="hidden items-center gap-2 text-sm font-medium text-[#63716c] sm:flex">
+                        <span class="h-2 w-2 rounded-full bg-[#2e8a5c]" />
+                        Account secured
+                    </div>
+                </template>
+            </PageHeader>
 
             <div v-if="$page.props.flash.warning" class="mt-6 rounded-xl border border-[#e8c978] bg-[#fff8e8] px-4 py-3 text-sm font-medium text-[#785617]" aria-live="polite">
                 {{ $page.props.flash.warning }}

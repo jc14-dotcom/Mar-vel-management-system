@@ -43,9 +43,7 @@ class AccountController extends Controller
                 'must_change_password' => true,
                 'email_verified_at' => now(),
             ]);
-            $user->roles()->sync([
-                Role::where('name', $request->string('role')->value())->value('id'),
-            ]);
+            $user->assignRole(Role::findByName($request->string('role')->value()));
             AuditEvent::create([
                 'actor_id' => $request->user()->id,
                 'action' => 'account.created',

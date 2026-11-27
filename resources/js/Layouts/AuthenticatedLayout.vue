@@ -3,6 +3,7 @@ import ApplicationLogo from '@/Components/ApplicationLogo.vue';
 import Dropdown from '@/Components/Dropdown.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
 import Icon, { type IconName } from '@/Components/Icon.vue';
+import LogoutConfirmation from '@/Components/LogoutConfirmation.vue';
 import NavLink from '@/Components/NavLink.vue';
 import RealtimeStatus from '@/Components/RealtimeStatus.vue';
 import type { PageProps } from '@/types';
@@ -19,6 +20,8 @@ type NavigationLink = {
 
 const page = usePage<PageProps>();
 const showingNavigationDropdown = ref(false);
+const showingLogoutConfirmation = ref(false);
+const shouldShowLogoutConfirmationAfterNavigationClose = ref(false);
 const mobileNavigationDrawer = ref<HTMLElement | null>(null);
 const navigationToggle = ref<HTMLButtonElement | null>(null);
 const previousBodyOverflow = ref('');
@@ -83,16 +86,6 @@ const navigationSections = computed<{ label: string; links: NavigationLink[] }[]
     ].filter((section) => section.links.length > 0);
 });
 
-const currentPageLabel = computed(() => {
-    if (route().current('profile.edit')) {
-        return 'Profile settings';
-    }
-
-    return navigationSections.value
-        .flatMap((section) => section.links)
-        .find((link) => link.active)?.label ?? 'Overview';
-});
-
 const userInitials = computed(() => {
     const name = page.props.auth.user?.name ?? 'Account';
 
@@ -106,6 +99,11 @@ const userInitials = computed(() => {
 
 const closeMobileNavigation = () => {
     showingNavigationDropdown.value = false;
+};
+
+const openLogoutConfirmationAfterNavigationClose = () => {
+    shouldShowLogoutConfirmationAfterNavigationClose.value = true;
+    closeMobileNavigation();
 };
 
 const handleKeydown = (event: KeyboardEvent) => {
@@ -157,6 +155,15 @@ const restorePageScroll = (restoreFocus = true) => {
 
     if (restoreFocus && window.innerWidth < 1024) {
         navigationToggle.value?.focus();
+    }
+};
+
+const handleMobileNavigationAfterLeave = () => {
+    restorePageScroll();
+
+    if (shouldShowLogoutConfirmationAfterNavigationClose.value) {
+        shouldShowLogoutConfirmationAfterNavigationClose.value = false;
+        showingLogoutConfirmation.value = true;
     }
 };
 
@@ -255,31 +262,27 @@ onBeforeUnmount(() => {
                     </div>
                 </nav>
 
-                <div class="mt-auto space-y-3">
-                    <div class="rounded-2xl border border-white/10 bg-white/8 p-4 text-sm text-[#c4ddd0]">
-                        <div class="flex items-center gap-2 text-xs font-semibold uppercase tracking-[.12em] text-[#e8b44e]">
-                            <span class="h-2 w-2 rounded-full bg-[#e8b44e]" />
-                            Phase 1 foundation
-                        </div>
-                        <p class="mt-3 leading-5">Your access is protected by server-side permissions.</p>
-                    </div>
-
-                    <Link
-                        :href="route('logout')"
-                        method="post"
-                        as="button"
-                        class="flex min-h-11 w-full items-center gap-3 rounded-xl px-3 py-3 text-start text-sm font-medium text-[#f4c3bb] hover:bg-white/10 hover:text-white"
+                <div class="mt-auto">
+                    <button
+                        type="button"
+                        class="group flex min-h-11 w-full items-center gap-3 rounded-xl border border-white/10 bg-white/[.04] px-3 py-2.5 text-start text-sm text-[#c4ddd0] transition hover:border-white/20 hover:bg-white/10 hover:text-white focus-visible:outline-none active:scale-[.99]"
+                        @click="showingLogoutConfirmation = true"
                     >
-                        <Icon name="logout" :size="19" />
-                        Log out
-                    </Link>
+                        <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-white/8 text-[#e8b44e] transition group-hover:bg-white/12">
+                            <Icon name="logout" :size="18" />
+                        </span>
+                        <span class="min-w-0 flex-1">
+                            <span class="block font-semibold leading-5">Log out</span>
+                            <span class="block text-xs font-normal leading-5 text-[#9fc4a7]">End this session</span>
+                        </span>
+                    </button>
                 </div>
             </aside>
 
             <div class="min-h-screen min-w-0 flex-1">
                 <header class="sticky top-0 z-30 border-b border-[#e1e9e3] bg-white/90 backdrop-blur-xl">
                     <div v-if="isNavigating" class="navigation-progress" aria-hidden="true" />
-                    <div class="flex h-20 items-center justify-between gap-4 px-4 sm:px-6 lg:px-10">
+                    <div class="flex h-16 items-center justify-between gap-4 px-4 sm:px-6 lg:px-10">
                         <div class="flex min-w-0 items-center gap-3">
                             <button
                                 type="button"
@@ -297,12 +300,6 @@ onBeforeUnmount(() => {
                                 <ApplicationLogo class="h-8 w-8 fill-current text-[#16483d]" />
                                 <span class="hidden text-sm font-semibold text-[#16483d] sm:inline">Mar-vel OMS</span>
                             </Link>
-
-                            <div class="hidden items-center gap-3 text-sm lg:flex">
-                                <span class="font-medium text-[#8a9790]">Workspace</span>
-                                <span class="text-[#c1cec5]">/</span>
-                                <span class="truncate font-semibold text-[#16201d]">{{ currentPageLabel }}</span>
-                            </div>
                         </div>
 
                         <div class="flex shrink-0 items-center gap-2 sm:gap-4">
@@ -345,7 +342,7 @@ onBeforeUnmount(() => {
             />
         </Transition>
 
-        <Transition name="mobile-navigation-drawer" @after-leave="() => restorePageScroll()">
+        <Transition name="mobile-navigation-drawer" @after-leave="handleMobileNavigationAfterLeave">
             <aside
                 v-if="showingNavigationDropdown"
                 id="mobile-navigation"
@@ -404,18 +401,22 @@ onBeforeUnmount(() => {
                         <Icon name="user" :size="19" />
                         Profile settings
                     </Link>
-                    <Link
-                        :href="route('logout')"
-                        method="post"
-                        as="button"
-                        class="flex min-h-11 w-full items-center gap-3 rounded-xl px-3 py-3 text-start text-sm font-medium text-[#f4c3bb] hover:bg-white/10 hover:text-white active:scale-[.99]"
-                        @click="closeMobileNavigation"
+                    <button
+                        type="button"
+                        class="group flex min-h-11 w-full items-center gap-3 rounded-xl border border-white/10 bg-white/[.04] px-3 py-2.5 text-start text-sm text-[#c4ddd0] transition hover:border-white/20 hover:bg-white/10 hover:text-white active:scale-[.99]"
+                        @click="openLogoutConfirmationAfterNavigationClose"
                     >
-                        <Icon name="logout" :size="19" />
-                        Log out
-                    </Link>
+                        <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-white/8 text-[#e8b44e]">
+                            <Icon name="logout" :size="18" />
+                        </span>
+                        <span class="min-w-0 flex-1">
+                            <span class="block font-semibold leading-5">Log out</span>
+                            <span class="block text-xs font-normal leading-5 text-[#9fc4a7]">End this session</span>
+                        </span>
+                    </button>
                 </div>
             </aside>
         </Transition>
+        <LogoutConfirmation v-model:show="showingLogoutConfirmation" />
     </div>
 </template>

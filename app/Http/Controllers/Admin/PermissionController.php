@@ -43,7 +43,7 @@ class PermissionController extends Controller
 
         DB::transaction(function () use ($request, $role, $permissionIds): void {
             $before = $role->permissions()->orderBy('name')->pluck('name')->all();
-            $role->permissions()->sync($permissionIds->all());
+            $role->syncPermissions($permissionIds->all());
             $after = $role->permissions()->orderBy('name')->pluck('name')->all();
 
             AuditEvent::create([

@@ -55,6 +55,7 @@
 
 - Add app-managed user accounts with active/disabled state and a safe Super Admin bootstrap process. Never ship a shared default password or public account-registration flow.
 - Implement Super Admin and Employee roles plus explicit permissions for voucher view, create, edit, print, export, cancel, account administration, project administration, and settings.
+- Use `spatie/laravel-permission` for role and permission relationships while keeping app-managed account creation, temporary-password enforcement, and the existing audit event contract.
 - Give employees view/create/edit access to shared vouchers by default. Keep permission administration Super Admin-only. Record permission changes in the audit history.
 - Use Laravel policies or gates for every protected action. Frontend visibility is a usability aid, never the authorization boundary.
 - Prefill `Prepared By` from the authenticated user, allow an authorized employee to edit that display value, and retain `created_by` as the actual account that saved the voucher.

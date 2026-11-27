@@ -1,14 +1,16 @@
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import GuestLayout from '@/Layouts/GuestLayout.vue';
+import LogoutConfirmation from '@/Components/LogoutConfirmation.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
-import { Head, Link, useForm } from '@inertiajs/vue3';
+import { Head, useForm } from '@inertiajs/vue3';
 
 const props = defineProps<{
     status?: string;
 }>();
 
 const form = useForm({});
+const showingLogoutConfirmation = ref(false);
 
 const submit = () => {
     form.post(route('verification.send'));
@@ -46,14 +48,15 @@ const verificationLinkSent = computed(
                     Resend Verification Email
                 </PrimaryButton>
 
-                <Link
-                    :href="route('logout')"
-                    method="post"
-                    as="button"
+                <button
+                    type="button"
                     class="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                    >Log Out</Link
+                    @click="showingLogoutConfirmation = true"
                 >
+                    Log Out
+                </button>
             </div>
         </form>
+        <LogoutConfirmation v-model:show="showingLogoutConfirmation" />
     </GuestLayout>
 </template>

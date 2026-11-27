@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import InputError from '@/Components/InputError.vue';
+import PageHeader from '@/Components/PageHeader.vue';
 import { Head, useForm } from '@inertiajs/vue3';
 
 interface Account {
@@ -44,14 +45,11 @@ const toggle = (account: Account) => {
 
     <AuthenticatedLayout>
         <div class="mx-auto max-w-7xl">
-            <div class="flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
-                <div>
-                    <p class="text-sm font-medium text-[#63716c]">Administration</p>
-                    <h1 class="mt-2 text-3xl font-semibold tracking-[-.03em] text-[#16201d]">Accounts & access</h1>
-                    <p class="mt-2 text-sm text-[#63716c]">Create individual accounts and keep access visible.</p>
-                </div>
-                <div class="rounded-full bg-[#dce9df] px-4 py-2 text-sm font-semibold text-[#16483d]">{{ accounts.length }} accounts</div>
-            </div>
+            <PageHeader title="Accounts & access" description="Create individual accounts and keep access visible.">
+                <template #actions>
+                    <div class="rounded-full bg-[#dce9df] px-4 py-2 text-sm font-semibold text-[#16483d]">{{ accounts.length }} accounts</div>
+                </template>
+            </PageHeader>
 
             <div v-if="$page.props.flash.success" class="mt-6 rounded-xl border border-[#b8d5bf] bg-[#edf7ef] px-4 py-3 text-sm font-medium text-[#16483d]">
                 {{ $page.props.flash.success }}

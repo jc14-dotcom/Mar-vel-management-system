@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import Icon from '@/Components/Icon.vue';
 import InputError from '@/Components/InputError.vue';
+import PageHeader from '@/Components/PageHeader.vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { useRealtimeUpdates } from '@/useRealtimeUpdates';
 import { Head, Link, router, useForm } from '@inertiajs/vue3';
@@ -147,17 +148,14 @@ onReconnect(refreshProjects);
 
     <AuthenticatedLayout>
         <div class="mx-auto max-w-7xl">
-            <header class="flex flex-col justify-between gap-6 sm:flex-row sm:items-end">
-                <div>
-                    <p class="eyebrow">Shared records</p>
-                    <h1 class="page-title">Projects</h1>
-                    <p class="page-lede">Find a project or add a new name. Existing voucher names will remain unchanged.</p>
-                </div>
-                <div class="metric-chip">
-                    <span class="h-2 w-2 rounded-full bg-[#16483d]" />
-                    {{ activeProjectCount }} active projects
-                </div>
-            </header>
+            <PageHeader title="Projects" description="Find a project or add a new name. Existing voucher names will remain unchanged.">
+                <template #actions>
+                    <div class="metric-chip">
+                        <span class="h-2 w-2 rounded-full bg-[#16483d]" />
+                        {{ activeProjectCount }} active projects
+                    </div>
+                </template>
+            </PageHeader>
 
             <div v-if="$page.props.flash.success" class="mt-6 rounded-xl border border-[#b8d5bf] bg-[#edf7ef] px-4 py-3 text-sm font-medium text-[#16483d]" role="status">
                 {{ $page.props.flash.success }}

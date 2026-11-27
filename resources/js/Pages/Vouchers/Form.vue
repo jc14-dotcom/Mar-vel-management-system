@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import Icon from '@/Components/Icon.vue';
 import InputError from '@/Components/InputError.vue';
+import PageHeader from '@/Components/PageHeader.vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { useRealtimeUpdates } from '@/useRealtimeUpdates';
 import type { PageProps } from '@/types';
@@ -274,18 +275,26 @@ onBeforeUnmount(removeInvalidListener);
 
     <AuthenticatedLayout>
         <div class="mx-auto max-w-5xl">
-            <header class="flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
-                <div>
-                    <Link :href="route('vouchers.index')" class="inline-flex min-h-10 items-center gap-2 text-sm font-semibold text-[#63716c] hover:text-[#16483d]">
-                        <Icon name="arrow-left" :size="17" />
-                        Vouchers
-                    </Link>
-                    <p class="eyebrow mt-6">{{ isEditing ? voucher?.voucher_number : 'New record' }}</p>
-                    <h1 class="page-title">{{ isEditing ? 'Edit voucher' : 'New voucher' }}</h1>
-                    <p class="page-lede">Enter the voucher details and particulars. The saved total is calculated by the server.</p>
-                </div>
-                <span v-if="voucher" class="status-chip">{{ statusLabel(voucher.status) }}</span>
-            </header>
+            <PageHeader
+                :title="isEditing ? 'Edit voucher' : 'New voucher'"
+                description="Enter the voucher details and particulars. The saved total is calculated by the server."
+            >
+                <template #before>
+                    <div class="flex flex-wrap items-center gap-2 text-sm">
+                        <Link :href="route('vouchers.index')" class="inline-flex min-h-10 items-center gap-2 font-semibold text-[#63716c] hover:text-[#16483d]">
+                            <Icon name="arrow-left" :size="17" />
+                            Vouchers
+                        </Link>
+                        <template v-if="isEditing && voucher">
+                            <span class="text-[#c1cec5]" aria-hidden="true">/</span>
+                            <span class="font-medium text-[#63716c]">{{ voucher.voucher_number }}</span>
+                        </template>
+                    </div>
+                </template>
+                <template #actions>
+                    <span v-if="voucher" class="status-chip">{{ statusLabel(voucher.status) }}</span>
+                </template>
+            </PageHeader>
 
             <div v-if="staleConflict" class="mt-6 flex flex-col gap-3 rounded-xl border border-[#d7b76b] bg-[#fff8e7] px-4 py-4 sm:flex-row sm:items-center sm:justify-between" role="alert" aria-live="assertive">
                 <div>

@@ -35,9 +35,7 @@ class BootstrapAdmin extends Command
                 'email_verified_at' => now(),
             ],
         );
-        $user->roles()->syncWithoutDetaching([
-            Role::where('name', 'super_admin')->value('id'),
-        ]);
+        $user->assignRole(Role::findByName('super_admin'));
 
         $this->info("Super Admin account ready for {$user->email}.");
 

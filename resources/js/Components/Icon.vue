@@ -15,6 +15,9 @@ export type IconName =
     | 'search'
     | 'arrow-left'
     | 'arrow-right'
+    | 'calendar'
+    | 'pen'
+    | 'history'
     | 'file-text';
 
 const props = withDefaults(
@@ -66,6 +69,21 @@ const paths: Record<IconName, string[]> = {
     search: ['m21 21-4.35-4.35', 'M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15Z'],
     'arrow-left': ['m15 18-6-6 6-6', 'M9 12h12'],
     'arrow-right': ['m9 18 6-6-6-6', 'M3 12h12'],
+    calendar: [
+        'M8 2v4',
+        'M16 2v4',
+        'M3 9h18',
+        'M5 4h14a1 1 0 0 1 1 1v15a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1Z',
+    ],
+    pen: [
+        'M12 20h9',
+        'M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z',
+    ],
+    history: [
+        'M3 12a9 9 0 1 0 2.6-6.4L3 8',
+        'M3 3v5h5',
+        'M12 7v5l3 2',
+    ],
     'file-text': [
         'M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z',
         'M14 2v6h6',

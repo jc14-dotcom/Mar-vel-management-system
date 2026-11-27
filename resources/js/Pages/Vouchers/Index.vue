@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import Icon from '@/Components/Icon.vue';
+import PageHeader from '@/Components/PageHeader.vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import type { PageProps } from '@/types';
 import { useRealtimeUpdates } from '@/useRealtimeUpdates';
@@ -90,23 +91,20 @@ onReconnect(refreshVouchers);
 
     <AuthenticatedLayout>
         <div class="mx-auto max-w-7xl">
-            <header class="flex flex-col justify-between gap-6 sm:flex-row sm:items-end">
-                <div>
-                    <p class="eyebrow">Shared records</p>
-                    <h1 class="page-title">Vouchers</h1>
-                    <p class="page-lede">Find a voucher or continue working on a saved record.</p>
-                </div>
-                <Link
-                    v-if="page.props.auth.can.createVouchers"
-                    :href="route('vouchers.create')"
-                    prefetch
-                    :cache-for="['10s', '30s']"
-                    class="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl bg-[#16483d] px-5 py-3 text-sm font-semibold text-white hover:bg-[#0f382f] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#e8b44e]"
-                >
-                    <span aria-hidden="true">+</span>
-                    New voucher
-                </Link>
-            </header>
+            <PageHeader title="Vouchers" description="Find a voucher or continue working on a saved record.">
+                <template #actions>
+                    <Link
+                        v-if="page.props.auth.can.createVouchers"
+                        :href="route('vouchers.create')"
+                        prefetch
+                        :cache-for="['10s', '30s']"
+                        class="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl bg-[#16483d] px-5 py-3 text-sm font-semibold text-white hover:bg-[#0f382f] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#e8b44e]"
+                    >
+                        <span aria-hidden="true">+</span>
+                        New voucher
+                    </Link>
+                </template>
+            </PageHeader>
 
             <div v-if="page.props.flash.success" class="mt-6 rounded-xl border border-[#b8d5bf] bg-[#edf7ef] px-4 py-3 text-sm font-medium text-[#16483d]" role="status">
                 {{ page.props.flash.success }}
